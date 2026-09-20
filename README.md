@@ -88,7 +88,7 @@ Các câu phản tư nằm trong `reflectionQuestions`. Bảng phân biệt nằ
 
 ## 5. Bản đáp án cho giáo viên
 
-Toàn bộ đáp án nằm trong `DAP_AN.md`: loại nguy cơ đúng và cách xử lí đúng của 5 tình huống, bản đồ nguy cơ, 3 hồ sơ mã độc, bảng ghép hồ sơ mật, bảng phân biệt Virus/Worm/Trojan và 8 hành động phòng tuyến. Mỗi phương án sai đều kèm phản hồi mà học sinh sẽ nhận được.
+Toàn bộ đáp án nằm trong `DAP_AN.md`: loại nguy cơ đúng và cách xử lí đúng của 5 tình huống, 3 loại mã độc, bốn nhánh của Trojan, bảng phân biệt Virus/Worm/Trojan và 8 hành động phòng tuyến. Mỗi phương án sai đều kèm phản hồi mà học sinh sẽ nhận được.
 
 File này **được sinh tự động** từ `js/data.js`, đừng sửa tay. Sau khi đổi câu hỏi hoặc đáp án trong `js/data.js`, chạy lại:
 
@@ -98,7 +98,19 @@ node tools/make-answer-key.js
 
 Nếu máy không có Node.js, vẫn có thể mở `js/data.js` đọc trực tiếp: `correctAnswer` là chỉ số đáp án đúng, đếm từ 0.
 
-## 6. Cách thay đáp án
+## 6. Phiếu bài tập giấy khi không có mạng
+
+`PHU_LUC_PHIEU_BAI_TAP.md` là bản giấy của toàn bộ bài tập trong web: 5 tình huống Chương 1 (kèm truyện dạng chữ để học sinh đọc mà không cần xem ảnh), 3 loại mã độc, bài luyện đoán bốn nhánh Trojan, bảng phân biệt để điền tay, 8 hành động phòng tuyến và 3 câu phản tư. Không có đáp án trong phiếu này — dùng làm phiếu phát cho học sinh hoặc phụ lục đính kèm KHBD khi lớp không vào được web.
+
+File này cũng **được sinh tự động** từ `js/data.js`, chạy lại sau khi đổi câu hỏi:
+
+```powershell
+node tools/make-worksheet.js
+```
+
+In trực tiếp từ Markdown, hoặc dán nội dung sang Word để chỉnh khoảng cách dòng cho học sinh viết tay.
+
+## 7. Cách thay đáp án
 
 - Tình huống Chương 1: sửa `riskType` và `correctAnswer`.
 - Hồ sơ Virus/Worm/Trojan: sửa `correctAnswer`.
@@ -108,7 +120,7 @@ Nếu máy không có Node.js, vẫn có thể mở `js/data.js` đọc trực t
 
 Sau khi đổi đáp án, cần đọc lại `hint`, `feedbackByOption`, `explanation` và `knowledge` để bảo đảm phản hồi vẫn nhất quán.
 
-## 7. Xuất PDF và Word
+## 8. Xuất PDF và Word
 
 ### PDF
 
@@ -130,7 +142,7 @@ Khi có đường dẫn, cuối Hồ sơ sẽ xuất hiện nút **Mở Padlet �
 
 Nút **Tải Word** dùng docx.js để tạo `.docx` với font Times New Roman và bảng có viền. Nếu CDN không tải được, web hiển thị thông báo và học sinh có thể dùng **Sao chép nội dung Hồ sơ** hoặc xuất PDF.
 
-## 8. Thư viện CDN
+## 9. Thư viện CDN
 
 Dự án chỉ dùng một thư viện ngoài:
 
@@ -138,7 +150,7 @@ Dự án chỉ dùng một thư viện ngoài:
 
 Game, lưu tiến trình, phản hồi, chế độ giáo viên và PDF không phụ thuộc thư viện ngoài.
 
-## 9. Cách chạy offline hoàn toàn
+## 10. Cách chạy offline hoàn toàn
 
 1. Tải tệp `index.umd.js` của docx.js về, ví dụ đặt tại `js/vendor/docx.umd.js`.
 2. Trong `index.html`, thay URL CDN bằng:
@@ -151,7 +163,7 @@ Game, lưu tiến trình, phản hồi, chế độ giáo viên và PDF không p
 
 Nếu không cần Word, có thể bỏ script docx.js. Các chức năng còn lại vẫn hoạt động.
 
-## 10. Chế độ giáo viên
+## 11. Chế độ giáo viên
 
 Mở trực tiếp tệp `teacher.html`. Tệp này sẽ chuyển sang trang chính và bật cổng đăng nhập giáo viên. Khi chạy bằng máy chủ cục bộ, cũng có thể dùng:
 

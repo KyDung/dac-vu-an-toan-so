@@ -405,7 +405,7 @@ const malwareCases = [
     subtitle: "Phần mềm nội gián đội lốt phần mềm thật",
     unlock: "TROJAN",
     intro: [
-      "Trojan lấy tên từ truyền thuyết Con ngựa thành Trojan trong thần thoại Hy Lạp: bên ngoài là một món quà, bên trong giấu quân lính.",
+      "Trojan lấy tên từ truyền thuyết Con ngựa thành Tơ-roa trong thần thoại Hy Lạp: bên ngoài là một món quà, bên trong giấu quân lính.",
       "Trojan cũng là một phần mềm hoàn chỉnh và nó chạy đúng như quảng cáo, nên người dùng không nghi ngờ gì. Nhưng song song với việc đó, nó âm thầm làm một việc khác: đọc trộm dữ liệu, ghi lại mật khẩu hoặc mở đường cho kẻ tấn công vào máy.",
     ],
     keyPoint:
