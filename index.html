@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#e9eff2">
+  <meta name="description" content="Web game giáo dục Bài 9: An toàn trên không gian mạng dành cho học sinh THPT.">
+  <title>Đặc vụ An toàn số</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="css/style.css?v=sim8">
+</head>
+<body>
+  <a class="skip-link" href="#app">Chuyển đến nội dung chính</a>
+
+  <header class="topbar" aria-label="Thanh tiến trình">
+    <a class="brand" href="#" data-action="go-home" aria-label="Về màn hình khởi động">
+      <span class="brand-mark" aria-hidden="true">S</span>
+      <span>ĐẶC VỤ AN TOÀN SỐ</span>
+    </a>
+    <button id="teacher-status" class="teacher-status" type="button" hidden>CHẾ ĐỘ GIÁO VIÊN</button>
+    <div class="mission-status">
+      <span id="screen-label">Trung tâm chỉ huy</span>
+      <strong id="mission-count">0/2 nhiệm vụ</strong>
+    </div>
+  </header>
+
+  <div id="storage-warning" class="system-warning" role="status" hidden>
+    Trình duyệt đang chặn lưu cục bộ. Em vẫn chơi được, nhưng tiến trình sẽ không được lưu.
+  </div>
+
+  <main id="app" tabindex="-1" aria-live="polite"></main>
+
+  <aside id="teacher-toolbar" class="teacher-toolbar" aria-label="Công cụ giáo viên" hidden>
+    <div class="teacher-toolbar-head">
+      <div class="teacher-toolbar-title">
+        <strong>Bảng điều khiển giáo viên</strong>
+        <span id="teacher-current-screen">Khởi động</span>
+      </div>
+      <button class="teacher-collapse" id="teacher-collapse" type="button" aria-expanded="true" aria-controls="teacher-controls">Thu gọn</button>
+    </div>
+    <div id="teacher-controls" class="teacher-controls">
+      <div>
+        <p class="teacher-section-label">Chuyển nhanh tới câu hoặc phần</p>
+        <nav id="teacher-quick-nav" class="teacher-quick-nav" aria-label="Chuyển nhanh tới câu hoặc phần"></nav>
+      </div>
+      <label>
+        Hoặc chọn trong danh sách đầy đủ
+        <select id="teacher-jump"></select>
+      </label>
+      <label class="switch-row"><input id="teacher-hints" type="checkbox"> Hiện gợi ý đáp án</label>
+      <label class="switch-row"><input id="teacher-project" type="checkbox"> Chế độ chiếu lớp</label>
+      <button class="button button-primary" id="teacher-autofill" type="button">Điền nhanh toàn bộ</button>
+      <button class="button button-subtle" id="teacher-exit" type="button">Thoát chế độ giáo viên</button>
+    </div>
+  </aside>
+
+  <section id="teacher-gate" class="teacher-gate" aria-labelledby="teacher-gate-title" hidden>
+    <form id="teacher-login" class="teacher-gate-card">
+      <p class="eyebrow">Khu vực dành cho giáo viên</p>
+      <h1 id="teacher-gate-title">Nhập mã truy cập</h1>
+      <p>Chế độ này có đáp án gợi ý và công cụ điền nhanh. Học sinh không cần truy cập màn hình này.</p>
+      <label class="field" for="teacher-pin">
+        <span>Mã PIN giáo viên</span>
+        <input id="teacher-pin" name="teacherPin" type="password" inputmode="numeric" autocomplete="off" required>
+      </label>
+      <p id="teacher-gate-error" class="form-error" role="alert" hidden>Mã PIN chưa đúng.</p>
+      <div class="button-row">
+        <button class="button button-primary" type="submit">Mở công cụ giáo viên</button>
+        <a class="button" href="./">Về chế độ học sinh</a>
+      </div>
+      <p class="privacy-note">Lưu ý: đây là website tĩnh. PIN giúp ngăn truy cập thông thường nhưng không thay thế hệ thống đăng nhập có máy chủ.</p>
+    </form>
+  </section>
+
+  <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
+
+  <script src="js/data.js?v=sim8"></script>
+  <script src="js/sim.js?v=sim8"></script>
+  <script src="https://unpkg.com/docx@8.5.0/build/index.umd.js" defer></script>
+  <script src="js/export.js?v=sim8" defer></script>
+  <script src="js/game.js?v=sim8" defer></script>
+</body>
+</html>
