@@ -33,6 +33,7 @@
     comparisonRevealed: false,
     comparisonComplete: false,
     returnToComparison: false,
+    focusTopic: "",
     defenseIndex: 0,
     defenseAnswers: [],
     defenseComplete: false,
@@ -261,10 +262,28 @@
   }
 
   function setScreen(name, extras = {}) {
-    Object.assign(state, extras, { currentScreen: name });
+    /* Điểm cần nhảy tới chỉ có tác dụng cho đúng lần chuyển màn đó. */
+    Object.assign(state, { focusTopic: "" }, extras, { currentScreen: name });
     saveState();
     render();
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    /* Khi đang dẫn tới một khối kiến thức cụ thể thì không kéo về đầu trang. */
+    if (!state.focusTopic) window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
+  /*
+    Đưa màn hình tới đúng khối kiến thức mà ô sai ở bảng phân biệt trỏ tới.
+    Nếu học sinh chưa mở Bản ghi kiến thức thì lùi về phần đọc ở bước 1.
+  */
+  function focusKnowledgeBlock() {
+    if (state.currentScreen !== "malware" || !state.focusTopic) return;
+    const item = malwareCases[state.malwareIndex] || malwareCases[0];
+    const target =
+      document.getElementById(`record-${item.id}-${state.focusTopic}`) ||
+      document.querySelector(".learn-step");
+    if (!target) return;
+    target.classList.add("record-block-focus");
+    target.scrollIntoView({ behavior: "smooth", block: "center" });
+    if (typeof target.focus === "function") target.focus({ preventScroll: true });
   }
 
   function getScenarioCatalog() {
@@ -306,6 +325,7 @@
     setupAssetFallbacks();
     setupComicPages();
     if (window.MalwareSim) window.MalwareSim.setupAll();
+    focusKnowledgeBlock();
     setupTeacherToolbar();
   }
 
@@ -611,9 +631,27 @@
       </section>`;
   }
 
+  /* Nhãn hiển thị của từng khối kiến thức, dùng chung cho màn mã độc và bảng phân biệt. */
+  const RECORD_TOPICS = {
+    essence: "Bản chất",
+    mechanism: "Cơ chế hoạt động",
+    harms: "Tác hại có thể gây ra",
+    prevention: "Cách phòng tránh",
+    distinguish: "Dấu hiệu phân biệt",
+  };
+
   function renderMalwareKnowledgeRecord(item) {
     const list = (items) =>
       `<ul>${items.map((text) => `<li>${esc(text)}</li>`).join("")}</ul>`;
+    /*
+      Mỗi khối có id riêng để ô sai ở bảng phân biệt dẫn thẳng tới đúng khối,
+      thay vì chỉ đưa học sinh về đầu màn hình rồi phải tự dò.
+    */
+    const block = (topic, body, wide) => `
+          <section class="record-block${wide ? " record-block-wide" : ""}" id="record-${esc(item.id)}-${topic}" tabindex="-1">
+            <h4>${esc(RECORD_TOPICS[topic])}</h4>
+            ${body}
+          </section>`;
     return `
       <section class="knowledge-card malware-learning-record" aria-labelledby="record-${esc(item.id)}">
         <span class="step-label">BẢN GHI KIẾN THỨC</span>
@@ -622,26 +660,11 @@
           ${item.keywords.map((keyword) => `<span>${esc(keyword)}</span>`).join("")}
         </div>
         <div class="malware-record-grid">
-          <section class="record-block">
-            <h4>Bản chất</h4>
-            <p>${esc(item.essence)}</p>
-          </section>
-          <section class="record-block">
-            <h4>Cơ chế hoạt động</h4>
-            <p>${esc(item.mechanism)}</p>
-          </section>
-          <section class="record-block">
-            <h4>Tác hại có thể gây ra</h4>
-            ${list(item.harms)}
-          </section>
-          <section class="record-block">
-            <h4>Cách phòng tránh</h4>
-            ${list(item.prevention)}
-          </section>
-          <section class="record-block record-block-wide">
-            <h4>Dấu hiệu phân biệt</h4>
-            <p>${esc(item.distinguish)}</p>
-          </section>
+          ${block("essence", `<p>${esc(item.essence)}</p>`)}
+          ${block("mechanism", `<p>${esc(item.mechanism)}</p>`)}
+          ${block("harms", list(item.harms))}
+          ${block("prevention", list(item.prevention))}
+          ${block("distinguish", `<p>${esc(item.distinguish)}</p>`, true)}
         </div>
       </section>`;
   }
@@ -877,7 +900,9 @@
                 ? `<div class="comparison-cell-hint" id="${hintId}">
                   <strong>${selected ? "Chưa đúng." : "Em chưa chọn ô này."}</strong>
                   <span>${esc(row.hints[malware])}</span>
-                  ${state.comparisonRevealed ? `<span class="comparison-reveal"><strong>Đáp án:</strong> “${esc(row.values[malware])}”.</span>` : ""}
+                  <button class="comparison-cell-link" data-action="review-topic" data-malware="${malware}" data-topic="${esc(row.topic)}" type="button">
+                    Đọc lại: ${esc(RECORD_TOPICS[row.topic])} của ${labels[malware]}
+                  </button>
                 </div>`
                 : ""
             }
@@ -903,40 +928,9 @@
       ? `<section class="feedback-panel attention comparison-summary" aria-live="polite">
           <h2>Còn ${wrongCount} ô cần sửa</h2>
           <p>Các ô viền đỏ có gợi ý riêng ngay dưới lựa chọn. Em có thể sửa rồi kiểm tra lại bao nhiêu lần cũng được.</p>
-          ${
-            state.comparisonRevealed
-              ? "<p>Đáp án của các ô còn sai đang hiện ngay dưới ô đó. Hãy đọc kĩ rồi chọn lại cho đúng.</p>"
-              : state.comparisonAttempts >= 3
-                ? `<p>Nếu đã thử nhiều lần mà vẫn khó, em có thể bấm <strong>Xem đáp án các ô còn sai</strong> ở dưới. Hãy cố tự làm trước đã nhé.</p>
-                   <div class="button-row"><button class="button" data-action="reveal-comparison" type="button">Xem đáp án các ô còn sai</button></div>`
-                : ""
-          }
+          <p>Mỗi ô sai có một nút dẫn thẳng tới đúng đoạn kiến thức cần đọc lại. Đọc xong bấm quay lại là ô đó vẫn còn nguyên lựa chọn cũ.</p>
         </section>`
       : "";
-
-    const reviewCards = `
-      <section class="panel comparison-review" aria-labelledby="review-malware-title">
-        <div>
-          <p class="eyebrow">Cần xem lại?</p>
-          <h2 id="review-malware-title">Mở lại hồ sơ đã học</h2>
-          <p>Đáp án em đã nộp vẫn được giữ nguyên. Chọn một hồ sơ để xem lại phần giải thích và Bản ghi kiến thức, sau đó quay về bảng này.</p>
-        </div>
-        <div class="comparison-review-grid">
-          ${malwareCases
-            .map((item, index) => {
-              const answer = state.malwareAnswers[item.id] || {};
-              const submitted =
-                answer.lastChoice !== undefined
-                  ? item.options[answer.lastChoice]
-                  : "Chưa trả lời";
-              return `<button class="comparison-review-card" data-action="review-malware" data-index="${index}" type="button">
-              <strong>Xem lại ${esc(item.title)}</strong>
-              <span>Đáp án đã nộp: ${esc(submitted)}</span>
-            </button>`;
-            })
-            .join("")}
-        </div>
-      </section>`;
 
     const standard = state.comparisonComplete
       ? `
@@ -964,9 +958,8 @@
             "Điền hết mọi ô rồi bấm nút kiểm tra ở cuối bảng.",
           ],
           done: "Toàn bộ các ô đều đúng. Sau đó bảng chuẩn hiện ra để em đối chiếu lại.",
-          tip: "Chọn sai không sao, em kiểm tra lại bao nhiêu lần cũng được. Ô sai sẽ được đánh dấu đỏ kèm gợi ý, nhưng không hiện sẵn đáp án.",
+          tip: "Bảng này không hiện đáp án. Ô nào sai sẽ có nút dẫn thẳng tới đúng đoạn kiến thức cần đọc lại, đọc xong bấm quay lại là chọn tiếp được.",
         })}
-        ${reviewCards}
         <div class="comparison-wrap">
           <table class="comparison-table">
             <thead><tr><th>Đặc điểm</th><th>Virus</th><th>Worm</th><th>Trojan</th></tr></thead>
@@ -1489,12 +1482,16 @@
     if (action === "start-scenarios")
       setScreen("scenario", { scenarioIndex: 0 });
     if (action === "to-comparison") setScreen("comparison");
-    if (action === "review-malware") {
-      const malwareIndex = Math.max(
-        0,
-        Math.min(Number(button.dataset.index) || 0, malwareCases.length - 1),
+    if (action === "review-topic") {
+      /* Đưa học sinh về đúng khối kiến thức của ô đang sai, không phải về đầu màn hình. */
+      const malwareIndex = malwareCases.findIndex(
+        (item) => item.id === button.dataset.malware,
       );
-      setScreen("malware", { malwareIndex, returnToComparison: true });
+      setScreen("malware", {
+        malwareIndex: malwareIndex < 0 ? 0 : malwareIndex,
+        returnToComparison: true,
+        focusTopic: button.dataset.topic || "",
+      });
     }
     if (action === "back-to-comparison")
       setScreen("comparison", { returnToComparison: false });

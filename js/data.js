@@ -534,6 +534,7 @@ const secretFiles = [
 const malwareComparison = [
   {
     feature: "Có phải phần mềm hoàn chỉnh không?",
+    topic: "essence",
     values: {
       virus: "Không. Chỉ là một đoạn mã nằm trong phần mềm khác",
       worm: "Có. Là phần mềm hoàn chỉnh, tự chạy được",
@@ -547,6 +548,7 @@ const malwareComparison = [
   },
   {
     feature: "Có tự lây sang máy khác không?",
+    topic: "mechanism",
     values: {
       virus: "Không chủ động tự lan qua mạng; phát tán khi vật chủ bị nhiễm được chia sẻ hoặc chạy",
       worm: "Có. Tự lây sang máy khác qua mạng",
@@ -560,6 +562,7 @@ const malwareComparison = [
   },
   {
     feature: "Nó cần người dùng làm gì để hoạt động?",
+    topic: "mechanism",
     values: {
       virus: "Vật chủ phải được người dùng hoặc hệ thống kích hoạt",
       worm: "Có thể tự lan sau khi xâm nhập; bước đầu có thể do lỗ hổng hoặc cú nhấp của người dùng",
@@ -573,6 +576,7 @@ const malwareComparison = [
   },
   {
     feature: "Mục đích chính của nó là gì?",
+    topic: "essence",
     values: {
       virus: "Nhiễm vào vật chủ khác và có thể phá hoại dữ liệu hoặc chương trình",
       worm: "Tự nhân bản, lan rộng và có thể mang thêm tải độc",
@@ -586,6 +590,7 @@ const malwareComparison = [
   },
   {
     feature: "Tác hại điển hình là gì?",
+    topic: "harms",
     values: {
       virus: "Hỏng hoặc mất tệp, lỗi chương trình, máy hoạt động bất thường",
       worm: "Nghẽn mạng, cạn tài nguyên, nhiều máy bị ảnh hưởng rất nhanh",
@@ -599,6 +604,7 @@ const malwareComparison = [
   },
   {
     feature: "Phòng tránh trọng tâm là gì?",
+    topic: "prevention",
     values: {
       virus: "Không chạy tệp lạ, quét USB và sao lưu dữ liệu",
       worm: "Vá lỗ hổng, bật tường lửa và cô lập máy có dấu hiệu lây lan",
