@@ -218,11 +218,11 @@ Có phải tất cả phần mềm độc hại đều là virus? Dấu hiệu m
 
 ### 1. Virus — Đoạn mã bám vào phần mềm khác
 
-Virus không phải là một phần mềm hoàn chỉnh. Nó chỉ là một đoạn mã ngắn được chèn thêm vào bên trong một phần mềm đã có sẵn trong máy. Phần mềm bị chèn đó gọi là vật chủ.
+Virus là đoạn mã độc được gắn hoặc chèn vào một tệp, chương trình hay vùng khởi động khác. Thành phần bị gắn mã độc được gọi là vật chủ.
 
-Vì chỉ là một đoạn mã, virus không tự khởi động được. Nó phải nằm chờ cho tới khi người dùng mở vật chủ ra chạy. Lúc đó đoạn mã mới được nạp vào bộ nhớ và bắt đầu tìm phần mềm khác để chèn vào.
+Virus được kích hoạt khi vật chủ được mở, chạy hoặc được hệ thống kích hoạt. Khi đó nó có thể chèn bản sao vào vật chủ khác và tiếp tục lây qua tệp chia sẻ, USB hoặc thiết bị lưu trữ.
 
-**Cần nhớ:** Virus cần vật chủ. Không ai chạy vật chủ thì virus vẫn nằm im, không làm gì được.
+**Cần nhớ:** Dấu hiệu bản chất của virus là cần vật chủ và lây bằng cách nhiễm mã vào vật chủ khác.
 
 Một máy tính có các dấu vết sau:
 
@@ -241,11 +241,11 @@ Một máy tính có các dấu vết sau:
 
 ### 2. Worm — Sâu máy tính, tự lây qua mạng
 
-Worm, tiếng Việt gọi là sâu máy tính, là một phần mềm hoàn chỉnh. Khác với virus, nó tự chạy được và không cần bám vào phần mềm nào cả.
+Worm, tiếng Việt gọi là sâu máy tính, là một chương trình độc hại độc lập. Khác với virus, nó không cần gắn mã vào một tệp vật chủ để tồn tại.
 
-Worm có hai cách vào máy. Cách thứ nhất là chui qua lỗ hổng bảo mật của hệ điều hành, người dùng không phải làm gì cả. Cách thứ hai là lừa người dùng tự bấm vào một liên kết trông vô hại trong email hay tin nhắn, ví dụ một dòng mời xem ảnh.
+Worm có thể tự nhân bản và lan từ thiết bị này sang thiết bị khác qua mạng, thường bằng cách khai thác lỗ hổng. Một số worm cũng dùng email, tin nhắn hoặc liên kết để dụ người dùng kích hoạt bước xâm nhập đầu tiên.
 
-**Cần nhớ:** Worm tự lây sang máy khác qua mạng. Đây chính là điểm khác lớn nhất so với virus.
+**Cần nhớ:** Dấu hiệu bản chất của worm là chương trình độc lập có khả năng tự nhân bản và tự lan qua mạng.
 
 Một máy tính có các dấu vết sau:
 
@@ -266,9 +266,9 @@ Một máy tính có các dấu vết sau:
 
 Trojan lấy tên từ truyền thuyết Con ngựa thành Tơ-roa trong thần thoại Hy Lạp: bên ngoài là một món quà, bên trong giấu quân lính.
 
-Trojan cũng là một phần mềm hoàn chỉnh và nó chạy đúng như quảng cáo, nên người dùng không nghi ngờ gì. Nhưng song song với việc đó, nó âm thầm làm một việc khác: đọc trộm dữ liệu, ghi lại mật khẩu hoặc mở đường cho kẻ tấn công vào máy.
+Trojan là chương trình độc hại giả dạng phần mềm hữu ích hoặc tệp đáng tin để dụ người dùng tự tải, cài đặt hay cấp quyền. Nó có thể vẫn cho thấy chức năng bề ngoài, đồng thời âm thầm thực hiện hành vi không được người dùng cho phép.
 
-**Cần nhớ:** Trojan không đặt trọng tâm vào việc lây lan. Mục tiêu của nó là ăn cắp thông tin và chiếm quyền điều khiển máy.
+**Cần nhớ:** Dấu hiệu bản chất của Trojan là ngụy trang và lừa người dùng kích hoạt; nó không tự nhân bản như worm hay lây nhiễm vật chủ như virus.
 
 Một máy tính có các dấu vết sau:
 
@@ -324,6 +324,8 @@ Trojan không phải một thứ duy nhất. Tùy việc nó làm sau khi đã v
 | Có tự lây sang máy khác không? | | | |
 | Nó cần người dùng làm gì để hoạt động? | | | |
 | Mục đích chính của nó là gì? | | | |
+| Tác hại điển hình là gì? | | | |
+| Phòng tránh trọng tâm là gì? | | | |
 
 ---
 

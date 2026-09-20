@@ -29,7 +29,10 @@
     secretMatches: {},
     secretComplete: false,
     comparison: {},
+    comparisonAttempts: 0,
+    comparisonRevealed: false,
     comparisonComplete: false,
+    returnToComparison: false,
     defenseIndex: 0,
     defenseAnswers: [],
     defenseComplete: false,
@@ -565,7 +568,9 @@
           <h1 id="risks-title">Một số nguy cơ trên mạng</h1>
           <p class="lead">Internet rất tiện, nhưng đi kèm với nó là một số nguy cơ mà ai dùng mạng cũng có thể gặp.</p>
           <ul class="signal-list">
-            ${RISK_OPTIONS.filter((risk) => risk !== "Không có nguy cơ").map((risk) => `<li>${esc(risk)}</li>`).join("")}
+            ${RISK_OPTIONS.filter((risk) => risk !== "Không có nguy cơ")
+              .map((risk) => `<li>${esc(risk)}</li>`)
+              .join("")}
           </ul>
           <p>Em sẽ gặp lần lượt ${getActiveScenarios().length} tình huống có thật trong đời sống học sinh. Mỗi tình huống dừng lại đúng lúc nhân vật phải quyết định, và em là người chọn giúp bạn ấy.</p>
           <button class="button button-primary" data-action="start-scenarios" type="button">Vào tình huống đầu tiên</button>
@@ -606,6 +611,41 @@
       </section>`;
   }
 
+  function renderMalwareKnowledgeRecord(item) {
+    const list = (items) =>
+      `<ul>${items.map((text) => `<li>${esc(text)}</li>`).join("")}</ul>`;
+    return `
+      <section class="knowledge-card malware-learning-record" aria-labelledby="record-${esc(item.id)}">
+        <span class="step-label">BẢN GHI KIẾN THỨC</span>
+        <h3 id="record-${esc(item.id)}">Những điều cần nắm về ${esc(item.title)}</h3>
+        <div class="keyword-list" aria-label="Từ khóa cần nhớ">
+          ${item.keywords.map((keyword) => `<span>${esc(keyword)}</span>`).join("")}
+        </div>
+        <div class="malware-record-grid">
+          <section class="record-block">
+            <h4>Bản chất</h4>
+            <p>${esc(item.essence)}</p>
+          </section>
+          <section class="record-block">
+            <h4>Cơ chế hoạt động</h4>
+            <p>${esc(item.mechanism)}</p>
+          </section>
+          <section class="record-block">
+            <h4>Tác hại có thể gây ra</h4>
+            ${list(item.harms)}
+          </section>
+          <section class="record-block">
+            <h4>Cách phòng tránh</h4>
+            ${list(item.prevention)}
+          </section>
+          <section class="record-block record-block-wide">
+            <h4>Dấu hiệu phân biệt</h4>
+            <p>${esc(item.distinguish)}</p>
+          </section>
+        </div>
+      </section>`;
+  }
+
   function renderMalware() {
     /*
       Thứ tự dạy: đọc giải thích trước, xem mô phỏng sau, cuối cùng mới trả lời
@@ -639,8 +679,9 @@
             "Đọc phần giải thích ở bước 1. Đây là kiến thức cần nhớ.",
             "Bấm Chạy mô phỏng ở bước 2 để xem lại chính điều vừa đọc bằng hình.",
             "Đọc ba dấu vết ở bước 3 rồi chọn đáp án và bấm Kiểm tra.",
+            "Sau khi trả lời đúng, đọc Bản ghi kiến thức để chuẩn hóa điều cần nhớ.",
           ],
-          done: "Chọn đúng đáp án ở bước 3.",
+          done: "Chọn đúng đáp án để mở đầy đủ tác hại, cách phòng tránh và dấu hiệu phân biệt.",
           tip: "Chọn sai không sao, em sẽ nhận gợi ý và được chọn lại.",
         })}
 
@@ -648,6 +689,11 @@
           <div class="learn-step-head"><span class="step-number">1</span><h2>Đọc trước: ${esc(item.title)} là gì</h2></div>
           ${item.intro.map((para) => `<p class="learn-text">${esc(para)}</p>`).join("")}
           <p class="key-point"><strong>Cần nhớ:</strong> ${esc(item.keyPoint)}</p>
+          <div class="keyword-preview">
+            <strong>Từ khóa cần nhận ra</strong>
+            <div class="keyword-list">${item.keywords.map((keyword) => `<span>${esc(keyword)}</span>`).join("")}</div>
+            <p>Tác hại và cách phòng tránh sẽ được mở sau khi em hoàn thành câu hỏi kiểm tra.</p>
+          </div>
         </section>
 
         <section class="learn-step">
@@ -674,9 +720,15 @@
                   ? `
                 <section class="feedback-panel success"><h3>Chính xác</h3><p>${esc(item.explanation)}</p></section>
                 <div class="flow-visual" aria-label="Sơ đồ hoạt động">${item.visual.map((node, index) => `${index ? `<span class="flow-arrow" aria-hidden="true">→</span>` : ""}<span class="flow-node">${esc(node)}</span>`).join("")}</div>
-                <section class="knowledge-card"><span class="step-label">GHI VÀO HỒ SƠ</span><p>${esc(item.knowledge)}</p></section>
-                <div class="button-row"><button class="button button-primary" data-action="next-malware" type="button">${state.malwareIndex === malwareCases.length - 1 ? "Sang phần Trojan có những loại nào" : `Học tiếp: ${esc(malwareCases[state.malwareIndex + 1].title)}`}</button></div>`
+                ${renderMalwareKnowledgeRecord(item)}`
                   : ""
+              }
+              ${
+                state.returnToComparison
+                  ? `<div class="button-row"><button class="button button-primary" data-action="back-to-comparison" type="button">Quay lại bảng phân biệt</button></div>`
+                  : answer.complete
+                    ? `<div class="button-row"><button class="button button-primary" data-action="next-malware" type="button">${state.malwareIndex === malwareCases.length - 1 ? "Sang phần Trojan có những loại nào" : `Học tiếp: ${esc(malwareCases[state.malwareIndex + 1].title)}`}</button></div>`
+                    : ""
               }
             </form>
           </div>
@@ -788,28 +840,103 @@
   function renderComparison() {
     const malwares = ["virus", "worm", "trojan"];
     const labels = { virus: "Virus", worm: "Worm", trojan: "Trojan" };
+    const allCellsFilled = malwareComparison.every((row, rowIndex) =>
+      malwares.every((malware) => Boolean(state.comparison[rowIndex]?.[malware])),
+    );
+    const checked =
+      state.comparisonAttempts > 0 &&
+      allCellsFilled &&
+      !state.comparisonComplete;
     const rows = malwareComparison
       .map(
         (row, rowIndex) => `
       <tr>
         <td><strong>${esc(row.feature)}</strong></td>
         ${malwares
-          .map(
-            (malware) => `
-          <td>
+          .map((malware) => {
+            const selected = state.comparison[rowIndex]?.[malware] || "";
+            const isCorrect = selected === row.values[malware];
+            const showHint = checked && !isCorrect;
+            const statusClass = checked
+              ? isCorrect
+                ? "comparison-cell-correct"
+                : "comparison-cell-wrong"
+              : "";
+            const hintId = `compare-hint-${rowIndex}-${malware}`;
+            return `
+          <td class="${statusClass}">
             <label class="field">
               <span class="sr-only">${esc(row.feature)} của ${labels[malware]}</span>
-              <select data-compare-row="${rowIndex}" data-compare-malware="${malware}" ${state.comparisonComplete ? "disabled" : ""}>
+              <select data-compare-row="${rowIndex}" data-compare-malware="${malware}" ${showHint ? `aria-describedby="${hintId}"` : ""} ${state.comparisonComplete ? "disabled" : ""}>
                 <option value="">Chọn mô tả</option>
-                ${comparisonOptions(row, malware, state.comparison[rowIndex]?.[malware])}
+                ${comparisonOptions(row, malware, selected)}
               </select>
             </label>
-          </td>`,
-          )
+            ${
+              showHint
+                ? `<div class="comparison-cell-hint" id="${hintId}">
+                  <strong>${selected ? "Chưa đúng." : "Em chưa chọn ô này."}</strong>
+                  <span>${esc(row.hints[malware])}</span>
+                  ${state.comparisonRevealed ? `<span class="comparison-reveal"><strong>Đáp án:</strong> “${esc(row.values[malware])}”.</span>` : ""}
+                </div>`
+                : ""
+            }
+          </td>`;
+          })
           .join("")}
       </tr>`,
       )
       .join("");
+
+    const wrongCount = checked
+      ? malwareComparison.reduce(
+          (count, row, rowIndex) =>
+            count +
+            malwares.filter(
+              (malware) =>
+                state.comparison[rowIndex]?.[malware] !== row.values[malware],
+            ).length,
+          0,
+        )
+      : 0;
+    const attemptFeedback = checked
+      ? `<section class="feedback-panel attention comparison-summary" aria-live="polite">
+          <h2>Còn ${wrongCount} ô cần sửa</h2>
+          <p>Các ô viền đỏ có gợi ý riêng ngay dưới lựa chọn. Em có thể sửa rồi kiểm tra lại bao nhiêu lần cũng được.</p>
+          ${
+            state.comparisonRevealed
+              ? "<p>Đáp án của các ô còn sai đang hiện ngay dưới ô đó. Hãy đọc kĩ rồi chọn lại cho đúng.</p>"
+              : state.comparisonAttempts >= 3
+                ? `<p>Nếu đã thử nhiều lần mà vẫn khó, em có thể bấm <strong>Xem đáp án các ô còn sai</strong> ở dưới. Hãy cố tự làm trước đã nhé.</p>
+                   <div class="button-row"><button class="button" data-action="reveal-comparison" type="button">Xem đáp án các ô còn sai</button></div>`
+                : ""
+          }
+        </section>`
+      : "";
+
+    const reviewCards = `
+      <section class="panel comparison-review" aria-labelledby="review-malware-title">
+        <div>
+          <p class="eyebrow">Cần xem lại?</p>
+          <h2 id="review-malware-title">Mở lại hồ sơ đã học</h2>
+          <p>Đáp án em đã nộp vẫn được giữ nguyên. Chọn một hồ sơ để xem lại phần giải thích và Bản ghi kiến thức, sau đó quay về bảng này.</p>
+        </div>
+        <div class="comparison-review-grid">
+          ${malwareCases
+            .map((item, index) => {
+              const answer = state.malwareAnswers[item.id] || {};
+              const submitted =
+                answer.lastChoice !== undefined
+                  ? item.options[answer.lastChoice]
+                  : "Chưa trả lời";
+              return `<button class="comparison-review-card" data-action="review-malware" data-index="${index}" type="button">
+              <strong>Xem lại ${esc(item.title)}</strong>
+              <span>Đáp án đã nộp: ${esc(submitted)}</span>
+            </button>`;
+            })
+            .join("")}
+        </div>
+      </section>`;
 
     const standard = state.comparisonComplete
       ? `
@@ -825,27 +952,28 @@
       : "";
 
     app.innerHTML = `
-      <section class="screen" aria-labelledby="comparison-title">
+      <section class="screen comparison-screen" aria-labelledby="comparison-title">
         <p class="eyebrow">Nhiệm vụ phân loại</p>
         <h1 id="comparison-title">Phân biệt Virus, Worm và Trojan</h1>
         <p class="lead">Mỗi ô cần một mô tả đúng với loại mã độc ở đầu cột. Một mô tả có thể xuất hiện ở nhiều cột nếu bản chất giống nhau.</p>
         ${taskBrief({
           what: "Điền đủ bảng so sánh ba loại mã độc, mỗi ô chọn một mô tả từ danh sách thả xuống.",
           steps: [
-            "Đọc tên đặc điểm ở cột đầu tiên, ví dụ có phải phần mềm hoàn chỉnh không.",
+            "Đọc tên đặc điểm ở cột đầu tiên.",
             "Với từng cột Virus, Worm, Trojan, chọn mô tả đúng cho đặc điểm đó.",
             "Điền hết mọi ô rồi bấm nút kiểm tra ở cuối bảng.",
           ],
           done: "Toàn bộ các ô đều đúng. Sau đó bảng chuẩn hiện ra để em đối chiếu lại.",
-          tip: "Hai cột có thể có cùng một mô tả. Ví dụ worm và trojan đều là phần mềm hoàn chỉnh, khác nhau ở khả năng lây.",
+          tip: "Chọn sai không sao, em kiểm tra lại bao nhiêu lần cũng được. Ô sai sẽ được đánh dấu đỏ kèm gợi ý, nhưng không hiện sẵn đáp án.",
         })}
+        ${reviewCards}
         <div class="comparison-wrap">
           <table class="comparison-table">
             <thead><tr><th>Đặc điểm</th><th>Virus</th><th>Worm</th><th>Trojan</th></tr></thead>
             <tbody>${rows}</tbody>
           </table>
         </div>
-        <div id="comparison-feedback"></div>
+        <div id="comparison-feedback">${attemptFeedback}</div>
         ${standard}
         <div class="button-row">
           ${!state.comparisonComplete ? `<button class="button button-primary" data-action="check-comparison" type="button">Kiểm tra bảng</button>` : `<button class="button button-primary" data-action="to-defense" type="button">Thiết lập phòng tuyến</button>`}
@@ -967,7 +1095,22 @@
     return malwareCases
       .map((item) => {
         const answer = state.malwareAnswers[item.id] || {};
-        return `<article class="report-entry"><h3>${esc(item.unlock)}</h3><p><strong>Phân tích của học sinh:</strong> ${answer.lastChoice !== undefined ? esc(item.options[answer.lastChoice]) : "Chưa thực hiện"}</p><p>${esc(item.explanation)}</p></article>`;
+        if (!answer.complete) {
+          return `<article class="report-entry"><h3>${esc(item.unlock)}</h3><p>Chưa hoàn thành hồ sơ kiến thức.</p></article>`;
+        }
+        return `
+          <article class="report-entry malware-report-entry">
+            <h3>${esc(item.unlock)}</h3>
+            <dl>
+              <dt>Phân tích của học sinh</dt><dd>${answer.lastChoice !== undefined ? esc(item.options[answer.lastChoice]) : "Chưa thực hiện"}</dd>
+              <dt>Từ khóa</dt><dd>${esc(item.keywords.join(", "))}</dd>
+              <dt>Bản chất</dt><dd>${esc(item.essence)}</dd>
+              <dt>Cơ chế</dt><dd>${esc(item.mechanism)}</dd>
+              <dt>Tác hại</dt><dd><ul>${item.harms.map((text) => `<li>${esc(text)}</li>`).join("")}</ul></dd>
+              <dt>Phòng tránh</dt><dd><ul>${item.prevention.map((text) => `<li>${esc(text)}</li>`).join("")}</ul></dd>
+              <dt>Phân biệt</dt><dd>${esc(item.distinguish)}</dd>
+            </dl>
+          </article>`;
       })
       .join("");
   }
@@ -1123,7 +1266,10 @@
     const [screen, index] = value.split(":");
     const extras = {};
     if (screen === "scenario") extras.scenarioIndex = Number(index || 0);
-    if (screen === "malware") extras.malwareIndex = Number(index || 0);
+    if (screen === "malware") {
+      extras.malwareIndex = Number(index || 0);
+      extras.returnToComparison = false;
+    }
     teacherCollapsed = window.matchMedia("(max-width: 600px)").matches;
     setScreen(screen, extras);
   }
@@ -1272,6 +1418,15 @@
       state.comparison[row] ||= {};
       state.comparison[row][event.target.dataset.compareMalware] =
         event.target.value;
+      event.target.removeAttribute("aria-invalid");
+      event.target.closest("td")?.classList.remove("comparison-cell-empty");
+      const comparisonSelects = [
+        ...app.querySelectorAll("[data-compare-row]"),
+      ];
+      if (comparisonSelects.every((select) => select.value)) {
+        const feedback = document.getElementById("comparison-feedback");
+        if (feedback && state.comparisonAttempts === 0) feedback.innerHTML = "";
+      }
       saveState();
     }
   });
@@ -1311,7 +1466,8 @@
       }
     }
     if (action === "to-transition") setScreen("transition");
-    if (action === "start-malware") setScreen("malware", { malwareIndex: 0 });
+    if (action === "start-malware")
+      setScreen("malware", { malwareIndex: 0, returnToComparison: false });
     if (action === "next-malware") {
       if (state.malwareIndex < malwareCases.length - 1) {
         state.malwareIndex += 1;
@@ -1330,24 +1486,63 @@
       if (!state.secretComplete)
         showToast("Chưa đúng hết. Những máy sai được đánh dấu đỏ.");
     }
-    if (action === "start-scenarios") setScreen("scenario", { scenarioIndex: 0 });
+    if (action === "start-scenarios")
+      setScreen("scenario", { scenarioIndex: 0 });
     if (action === "to-comparison") setScreen("comparison");
+    if (action === "review-malware") {
+      const malwareIndex = Math.max(
+        0,
+        Math.min(Number(button.dataset.index) || 0, malwareCases.length - 1),
+      );
+      setScreen("malware", { malwareIndex, returnToComparison: true });
+    }
+    if (action === "back-to-comparison")
+      setScreen("comparison", { returnToComparison: false });
     if (action === "check-comparison") {
       const malwares = ["virus", "worm", "trojan"];
+      const comparisonSelects = [
+        ...app.querySelectorAll("[data-compare-row]"),
+      ];
+      comparisonSelects.forEach((select) => {
+        select.removeAttribute("aria-invalid");
+        select.closest("td")?.classList.remove("comparison-cell-empty");
+      });
+      const missingSelects = comparisonSelects.filter(
+        (select) => !select.value,
+      );
+      if (missingSelects.length) {
+        missingSelects.forEach((select) => {
+          select.setAttribute("aria-invalid", "true");
+          select.closest("td")?.classList.add("comparison-cell-empty");
+        });
+        const target = document.getElementById("comparison-feedback");
+        target.innerHTML = `<section class="feedback-panel attention comparison-summary" aria-live="polite">
+          <h2>Em còn ${missingSelects.length} ô chưa chọn</h2>
+          <p>Hãy hoàn thành toàn bộ bảng trước khi kiểm tra. Đáp án và gợi ý cho câu sai chỉ xuất hiện sau khi em đã chọn đủ tất cả các ô.</p>
+        </section>`;
+        missingSelects[0].scrollIntoView({ behavior: "smooth", block: "center" });
+        missingSelects[0].focus({ preventScroll: true });
+        showToast(`Em cần chọn thêm ${missingSelects.length} ô trước khi kiểm tra.`);
+        return;
+      }
       const correct = malwareComparison.every((row, rowIndex) =>
         malwares.every(
           (malware) =>
             state.comparison[rowIndex]?.[malware] === row.values[malware],
         ),
       );
-      const target = document.getElementById("comparison-feedback");
+      state.comparisonAttempts += 1;
       if (correct) {
         state.comparisonComplete = true;
-        saveState();
-        render();
-      } else {
-        target.innerHTML = `<section class="feedback-panel attention"><h2>Hãy xem lại một chi tiết.</h2><p>Hãy đối chiếu lại với phần đã học: loại nào là phần mềm hoàn chỉnh, loại nào tự lây qua mạng, và loại nào cần người dùng tự cài đặt.</p></section>`;
       }
+      saveState();
+      render();
+    }
+    if (action === "reveal-comparison") {
+      /* Chỉ lộ đáp án khi học sinh tự bấm, không lộ tự động sau vài lần sai. */
+      state.comparisonRevealed = true;
+      saveState();
+      render();
     }
     if (action === "to-defense") setScreen("defense", { defenseIndex: 0 });
     if (action === "answer-defense") {
@@ -1434,6 +1629,7 @@
       malwareComparison.map((row, index) => [index, { ...row.values }]),
     );
     state.comparisonComplete = true;
+    state.comparisonAttempts = Math.max(state.comparisonAttempts, 1);
     state.defenseAnswers = getDefenseActions().map((item) => ({
       choice: item.category,
       correct: true,

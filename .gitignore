@@ -1,3 +1,6 @@
 # Thư mục tạm khi kiểm tra bố cục mô phỏng
 .tmp/
 node_modules/
+
+# Ảnh chụp phiên duyệt web khi kiểm thử
+.playwright-cli/

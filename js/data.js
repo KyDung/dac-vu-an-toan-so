@@ -342,11 +342,28 @@ const malwareCases = [
     subtitle: "Đoạn mã bám vào phần mềm khác",
     unlock: "VIRUS",
     intro: [
-      "Virus không phải là một phần mềm hoàn chỉnh. Nó chỉ là một đoạn mã ngắn được chèn thêm vào bên trong một phần mềm đã có sẵn trong máy. Phần mềm bị chèn đó gọi là vật chủ.",
-      "Vì chỉ là một đoạn mã, virus không tự khởi động được. Nó phải nằm chờ cho tới khi người dùng mở vật chủ ra chạy. Lúc đó đoạn mã mới được nạp vào bộ nhớ và bắt đầu tìm phần mềm khác để chèn vào.",
+      "Virus là đoạn mã độc được gắn hoặc chèn vào một tệp, chương trình hay vùng khởi động khác. Thành phần bị gắn mã độc được gọi là vật chủ.",
+      "Virus được kích hoạt khi vật chủ được mở, chạy hoặc được hệ thống kích hoạt. Khi đó nó có thể chèn bản sao vào vật chủ khác và tiếp tục lây qua tệp chia sẻ, USB hoặc thiết bị lưu trữ.",
     ],
     keyPoint:
-      "Virus cần vật chủ. Không ai chạy vật chủ thì virus vẫn nằm im, không làm gì được.",
+      "Dấu hiệu bản chất của virus là cần vật chủ và lây bằng cách nhiễm mã vào vật chủ khác.",
+    keywords: ["đoạn mã độc", "vật chủ", "kích hoạt cùng vật chủ", "lây nhiễm tệp"],
+    essence:
+      "Virus không phải một chương trình độc lập hoàn chỉnh. Nó tồn tại bằng cách gắn mã của mình vào một vật chủ.",
+    mechanism:
+      "Vật chủ bị nhiễm được kích hoạt → mã virus chạy → virus tìm và chèn bản sao vào vật chủ khác → các vật chủ mới tiếp tục phát tán khi được kích hoạt.",
+    harms: [
+      "Làm hỏng, xóa, sửa đổi hoặc mã hóa tệp và chương trình.",
+      "Gây lỗi, làm máy chậm, treo máy hoặc khiến phần mềm hoạt động bất thường.",
+      "Làm các tệp bị nhiễm tiếp tục phát tán qua USB, thư mục dùng chung hoặc tệp gửi cho người khác.",
+    ],
+    prevention: [
+      "Không mở tệp, chương trình hoặc macro không rõ nguồn gốc.",
+      "Quét USB và tệp tải xuống; cập nhật hệ điều hành và phần mềm bảo vệ.",
+      "Sao lưu dữ liệu quan trọng để có thể phục hồi nếu tệp bị phá hoại.",
+    ],
+    distinguish:
+      "Nhớ cụm 'cần vật chủ'. Worm là chương trình độc lập có thể tự lan qua mạng, còn Trojan nổi bật ở việc giả dạng để dụ người dùng cài hoặc chạy.",
     story: [
       "Một học sinh nhận USB từ bạn và chạy một chương trình trong đó.",
       "Một số tệp khác bắt đầu có biểu hiện bất thường.",
@@ -362,9 +379,9 @@ const malwareCases = [
     correctAnswer: 1,
     hint: "Theo dõi mối liên hệ giữa mã độc và các tệp bị nhiễm.",
     explanation:
-      "Virus là đoạn mã độc, không phải chương trình hoàn chỉnh. Nó gắn vào tệp hoặc chương trình khác và phát tán khi vật chủ được thực thi.",
+      "Dấu vết quan trọng là hiện tượng chỉ xuất hiện khi chương trình bị nhiễm được chạy, sau đó các tệp khác cũng bị chèn mã. Đây là cơ chế lây nhiễm qua vật chủ của virus.",
     knowledge:
-      "Virus cần vật chủ. FILE A → [VIRUS + FILE A] → FILE B → [VIRUS + FILE B]",
+      "Virus: đoạn mã độc cần vật chủ, được kích hoạt cùng vật chủ và lây bằng cách nhiễm mã vào vật chủ khác.",
     asset: ASSETS.chapter2.virus,
     visual: ["FILE A", "VIRUS + FILE A", "FILE B", "VIRUS + FILE B"],
   },
@@ -374,11 +391,28 @@ const malwareCases = [
     subtitle: "Sâu máy tính, tự lây qua mạng",
     unlock: "WORM - SÂU MÁY TÍNH",
     intro: [
-      "Worm, tiếng Việt gọi là sâu máy tính, là một phần mềm hoàn chỉnh. Khác với virus, nó tự chạy được và không cần bám vào phần mềm nào cả.",
-      "Worm có hai cách vào máy. Cách thứ nhất là chui qua lỗ hổng bảo mật của hệ điều hành, người dùng không phải làm gì cả. Cách thứ hai là lừa người dùng tự bấm vào một liên kết trông vô hại trong email hay tin nhắn, ví dụ một dòng mời xem ảnh.",
+      "Worm, tiếng Việt gọi là sâu máy tính, là một chương trình độc hại độc lập. Khác với virus, nó không cần gắn mã vào một tệp vật chủ để tồn tại.",
+      "Worm có thể tự nhân bản và lan từ thiết bị này sang thiết bị khác qua mạng, thường bằng cách khai thác lỗ hổng. Một số worm cũng dùng email, tin nhắn hoặc liên kết để dụ người dùng kích hoạt bước xâm nhập đầu tiên.",
     ],
     keyPoint:
-      "Worm tự lây sang máy khác qua mạng. Đây chính là điểm khác lớn nhất so với virus.",
+      "Dấu hiệu bản chất của worm là chương trình độc lập có khả năng tự nhân bản và tự lan qua mạng.",
+    keywords: ["chương trình độc lập", "tự nhân bản", "tự lan qua mạng", "khai thác lỗ hổng"],
+    essence:
+      "Worm là chương trình độc hại hoàn chỉnh, không cần vật chủ và có khả năng tạo bản sao của chính nó.",
+    mechanism:
+      "Một máy bị nhiễm → worm dò thiết bị hoặc lỗ hổng trong mạng → tự gửi hoặc cài bản sao sang máy khác → số máy bị nhiễm tăng rất nhanh.",
+    harms: [
+      "Chiếm băng thông mạng, bộ nhớ và tài nguyên xử lí, làm máy và mạng chậm hoặc tê liệt.",
+      "Lây nhanh tới nhiều thiết bị trong trường học, gia đình hoặc cơ quan trong thời gian ngắn.",
+      "Có thể mang theo tải độc khác để phá hoại dữ liệu, tạo cửa hậu hoặc đánh cắp thông tin.",
+    ],
+    prevention: [
+      "Cập nhật hệ điều hành và ứng dụng để vá các lỗ hổng bảo mật.",
+      "Bật tường lửa, phần mềm bảo vệ và không mở liên kết hoặc tệp đính kèm đáng ngờ.",
+      "Ngắt kết nối mạng hoặc cô lập thiết bị khi phát hiện dấu hiệu lây lan bất thường.",
+    ],
+    distinguish:
+      "Nhớ cụm 'tự lan qua mạng'. Virus cần nhiễm vào vật chủ; Trojan chủ yếu dựa vào vỏ bọc đáng tin để lừa người dùng cài hoặc chạy.",
     story: [
       "Một học sinh nhận tin nhắn: Ảnh của bạn ở đây nè! [BẤM XEM ẢNH].",
       "Sau khi bấm, một chương trình được tải xuống và tự hoạt động.",
@@ -394,7 +428,7 @@ const malwareCases = [
     correctAnswer: 1,
     hint: "Chú ý việc nhiều máy bị ảnh hưởng mà không cần từng tệp vật chủ.",
     explanation:
-      "Worm là chương trình hoàn chỉnh và có khả năng tự lây lan, thường qua mạng hoặc lỗ hổng. Nó cũng có thể dụ người dùng bấm liên kết hay chạy tệp.",
+      "Nhiều máy lần lượt bị ảnh hưởng mà không cần từng tệp vật chủ cho thấy một chương trình độc lập đang tự nhân bản và lan qua mạng. Đó là cơ chế đặc trưng của worm.",
     knowledge: "Worm có thể lan theo chuỗi: Máy A → Máy B → Máy C → Máy D.",
     asset: ASSETS.chapter2.worm,
     visual: ["MÁY A", "MÁY B", "MÁY C", "MÁY D"],
@@ -406,10 +440,27 @@ const malwareCases = [
     unlock: "TROJAN",
     intro: [
       "Trojan lấy tên từ truyền thuyết Con ngựa thành Tơ-roa trong thần thoại Hy Lạp: bên ngoài là một món quà, bên trong giấu quân lính.",
-      "Trojan cũng là một phần mềm hoàn chỉnh và nó chạy đúng như quảng cáo, nên người dùng không nghi ngờ gì. Nhưng song song với việc đó, nó âm thầm làm một việc khác: đọc trộm dữ liệu, ghi lại mật khẩu hoặc mở đường cho kẻ tấn công vào máy.",
+      "Trojan là chương trình độc hại giả dạng phần mềm hữu ích hoặc tệp đáng tin để dụ người dùng tự tải, cài đặt hay cấp quyền. Nó có thể vẫn cho thấy chức năng bề ngoài, đồng thời âm thầm thực hiện hành vi không được người dùng cho phép.",
     ],
     keyPoint:
-      "Trojan không đặt trọng tâm vào việc lây lan. Mục tiêu của nó là ăn cắp thông tin và chiếm quyền điều khiển máy.",
+      "Dấu hiệu bản chất của Trojan là ngụy trang và lừa người dùng kích hoạt; nó không tự nhân bản như worm hay lây nhiễm vật chủ như virus.",
+    keywords: ["ngụy trang", "đánh lừa người dùng", "người dùng kích hoạt", "hoạt động bí mật"],
+    essence:
+      "Trojan là chương trình độc hại khoác vỏ bọc có vẻ an toàn hoặc hữu ích để người dùng tự đưa nó vào máy.",
+    mechanism:
+      "Người dùng thấy một phần mềm có vẻ hữu ích → tự tải, cài hoặc cấp quyền → chức năng ẩn được kích hoạt → dữ liệu hoặc quyền điều khiển bị chuyển cho kẻ tấn công.",
+    harms: [
+      "Đánh cắp mật khẩu, dữ liệu cá nhân, tài liệu hoặc thông tin tài khoản.",
+      "Theo dõi người dùng, ghi phím, mở cửa hậu hoặc cho phép điều khiển máy từ xa.",
+      "Tải thêm mã độc, thay đổi hệ thống hoặc lợi dụng máy để thực hiện hành vi khác.",
+    ],
+    prevention: [
+      "Chỉ tải phần mềm từ nguồn chính thức; không dùng bản crack hoặc tệp cài đặt không rõ nguồn.",
+      "Kiểm tra tên tệp, quyền ứng dụng yêu cầu và cảnh báo bảo mật trước khi cài hoặc chạy.",
+      "Cập nhật hệ thống, dùng phần mềm bảo vệ và không cấp quyền quản trị khi không cần thiết.",
+    ],
+    distinguish:
+      "Nhớ cụm 'giả dạng để được cài'. Virus nổi bật ở việc nhiễm vào vật chủ; worm nổi bật ở khả năng tự lan qua mạng.",
     story: [
       "Học sinh tải GAME_PRO_FREE_CRACK.exe từ một trang không rõ nguồn.",
       "Trò chơi vẫn chạy bình thường sau khi cài đặt.",
@@ -425,8 +476,9 @@ const malwareCases = [
     correctAnswer: 1,
     hint: "Chương trình vẫn tỏ ra hữu ích trong khi có hoạt động bí mật phía sau.",
     explanation:
-      "Trojan ngụy trang dưới dạng phần mềm có vẻ bình thường. Mục tiêu chính là đánh cắp thông tin, mở đường truy cập hoặc chiếm quyền điều khiển, không đặt trọng tâm vào tự lây lan.",
-    knowledge: "Vỏ ngoài: GAME MIỄN PHÍ. Bên trong: CHƯƠNG TRÌNH NỘI GIÁN.",
+      "Trò chơi vẫn tạo cảm giác bình thường nhưng có hoạt động bí mật phía sau. Việc ngụy trang để người dùng tự cài hoặc chạy là đặc điểm nhận diện quan trọng của Trojan.",
+    knowledge:
+      "Trojan: chương trình độc hại ngụy trang, dựa vào việc người dùng tự cài hoặc chạy để thực hiện hoạt động bí mật.",
     asset: ASSETS.chapter2.trojan,
     visual: ["GAME MIỄN PHÍ", "MỞ GÓI", "CHƯƠNG TRÌNH NỘI GIÁN"],
   },
@@ -487,29 +539,75 @@ const malwareComparison = [
       worm: "Có. Là phần mềm hoàn chỉnh, tự chạy được",
       trojan: "Có. Là phần mềm hoàn chỉnh, tự chạy được",
     },
+    hints: {
+      virus: "Nhớ cụm “cần vật chủ”: virus phải gắn mã của nó vào một tệp hoặc chương trình khác.",
+      worm: "Worm tồn tại như một chương trình riêng và không cần bám vào tệp vật chủ.",
+      trojan: "Trojan là một chương trình có vỏ bọc hữu ích hoặc đáng tin, nhưng bên trong chứa chức năng độc hại.",
+    },
   },
   {
     feature: "Có tự lây sang máy khác không?",
     values: {
-      virus: "Không tự lây qua mạng, chỉ lây sang tệp khác trong cùng máy",
+      virus: "Không chủ động tự lan qua mạng; phát tán khi vật chủ bị nhiễm được chia sẻ hoặc chạy",
       worm: "Có. Tự lây sang máy khác qua mạng",
       trojan: "Không tự lây lan",
+    },
+    hints: {
+      virus: "Virus không chủ động quét mạng để tự đi; hãy nghĩ xem tệp vật chủ bị nhiễm được chia sẻ hoặc chạy như thế nào.",
+      worm: "Từ khóa nhận diện worm là “tự nhân bản” và “tự lan qua mạng”.",
+      trojan: "Trojan thường vào máy vì người dùng tải, cài hoặc chạy nó; bản thân nó không tự nhân bản để lây lan.",
     },
   },
   {
     feature: "Nó cần người dùng làm gì để hoạt động?",
     values: {
-      virus: "Người dùng phải chạy phần mềm đang chứa nó",
-      worm: "Không cần gì cả, tự chạy và tự lây",
-      trojan: "Người dùng phải tự tải về và cài đặt nó",
+      virus: "Vật chủ phải được người dùng hoặc hệ thống kích hoạt",
+      worm: "Có thể tự lan sau khi xâm nhập; bước đầu có thể do lỗ hổng hoặc cú nhấp của người dùng",
+      trojan: "Thường phải lừa người dùng tải, cài, chạy hoặc cấp quyền",
+    },
+    hints: {
+      virus: "Hãy xác định thứ phải được mở hoặc chạy trước khi đoạn mã virus bên trong hoạt động.",
+      worm: "Tách hai giai đoạn: cách worm xâm nhập lần đầu và khả năng tự lan của nó sau khi đã vào một máy.",
+      trojan: "Vỏ bọc giả chỉ phát huy tác dụng khi người dùng tin tưởng và chủ động đưa chương trình vào máy.",
     },
   },
   {
     feature: "Mục đích chính của nó là gì?",
     values: {
-      virus: "Phá hỏng hoặc làm sai lệch tệp trong máy",
-      worm: "Lan ra thật nhiều máy, làm tê liệt hệ thống",
-      trojan: "Ăn cắp thông tin và chiếm quyền điều khiển máy",
+      virus: "Nhiễm vào vật chủ khác và có thể phá hoại dữ liệu hoặc chương trình",
+      worm: "Tự nhân bản, lan rộng và có thể mang thêm tải độc",
+      trojan: "Thực hiện hoạt động bí mật như đánh cắp dữ liệu hoặc mở cửa hậu",
+    },
+    hints: {
+      virus: "Cơ chế đặc trưng của virus là chèn mã vào vật chủ khác; hậu quả có thể đi kèm phá hoại tệp hoặc chương trình.",
+      worm: "Nhấn vào mục tiêu lan thật nhanh bằng nhiều bản sao; một số worm còn mang theo mã độc khác.",
+      trojan: "Sau vỏ bọc bình thường là một chức năng bí mật, chẳng hạn lấy dữ liệu hoặc tạo đường truy cập trái phép.",
+    },
+  },
+  {
+    feature: "Tác hại điển hình là gì?",
+    values: {
+      virus: "Hỏng hoặc mất tệp, lỗi chương trình, máy hoạt động bất thường",
+      worm: "Nghẽn mạng, cạn tài nguyên, nhiều máy bị ảnh hưởng rất nhanh",
+      trojan: "Mất mật khẩu hoặc dữ liệu, bị theo dõi hay điều khiển máy từ xa",
+    },
+    hints: {
+      virus: "Hãy nghĩ tới những vật chủ bị nhiễm: tệp, chương trình và hoạt động của máy có thể bị thay đổi hoặc phá hỏng.",
+      worm: "Nhiều bản sao cùng lan trong mạng sẽ tiêu thụ băng thông, bộ nhớ và tài nguyên xử lí.",
+      trojan: "Hoạt động bí mật của Trojan thường nhắm tới dữ liệu, tài khoản hoặc quyền điều khiển thiết bị.",
+    },
+  },
+  {
+    feature: "Phòng tránh trọng tâm là gì?",
+    values: {
+      virus: "Không chạy tệp lạ, quét USB và sao lưu dữ liệu",
+      worm: "Vá lỗ hổng, bật tường lửa và cô lập máy có dấu hiệu lây lan",
+      trojan: "Chỉ tải từ nguồn chính thức, tránh bản crack và kiểm tra quyền ứng dụng",
+    },
+    hints: {
+      virus: "Tập trung vào các đường mang tệp nhiễm như USB, tệp tải xuống và việc phục hồi khi dữ liệu bị phá hoại.",
+      worm: "Worm thường lợi dụng lỗ hổng và kết nối mạng, vì vậy cần chặn đường lan và vá điểm yếu.",
+      trojan: "Giảm khả năng bị lừa cài chương trình giả bằng cách kiểm tra nguồn tải, tệp cài đặt và quyền được yêu cầu.",
     },
   },
 ];

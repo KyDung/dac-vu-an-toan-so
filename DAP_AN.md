@@ -152,7 +152,7 @@ Không chấm đúng sai, chỉ đọc để nắm khả năng quan sát của h
 
 ### 1. Virus — Đoạn mã bám vào phần mềm khác
 
-**Kiến thức cần nhớ:** Virus cần vật chủ. Không ai chạy vật chủ thì virus vẫn nằm im, không làm gì được.
+**Kiến thức cần nhớ:** Dấu hiệu bản chất của virus là cần vật chủ và lây bằng cách nhiễm mã vào vật chủ khác.
 
 **Câu hỏi:** Điều gì đặc biệt trong cách mã độc này hoạt động?
 
@@ -163,13 +163,27 @@ Không chấm đúng sai, chỉ đọc để nắm khả năng quan sát của h
 
 **Gợi ý hiện khi chọn sai:** Theo dõi mối liên hệ giữa mã độc và các tệp bị nhiễm.
 
-**Giải thích:** Virus là đoạn mã độc, không phải chương trình hoàn chỉnh. Nó gắn vào tệp hoặc chương trình khác và phát tán khi vật chủ được thực thi.
+**Giải thích:** Dấu vết quan trọng là hiện tượng chỉ xuất hiện khi chương trình bị nhiễm được chạy, sau đó các tệp khác cũng bị chèn mã. Đây là cơ chế lây nhiễm qua vật chủ của virus.
 
-**Kiến thức chốt lại:** Virus cần vật chủ. FILE A → [VIRUS + FILE A] → FILE B → [VIRUS + FILE B]
+**Bản ghi kiến thức sau khi trả lời đúng:**
+
+- **Từ khóa:** đoạn mã độc, vật chủ, kích hoạt cùng vật chủ, lây nhiễm tệp
+- **Bản chất:** Virus không phải một chương trình độc lập hoàn chỉnh. Nó tồn tại bằng cách gắn mã của mình vào một vật chủ.
+- **Cơ chế hoạt động:** Vật chủ bị nhiễm được kích hoạt → mã virus chạy → virus tìm và chèn bản sao vào vật chủ khác → các vật chủ mới tiếp tục phát tán khi được kích hoạt.
+- **Tác hại:**
+  - Làm hỏng, xóa, sửa đổi hoặc mã hóa tệp và chương trình.
+  - Gây lỗi, làm máy chậm, treo máy hoặc khiến phần mềm hoạt động bất thường.
+  - Làm các tệp bị nhiễm tiếp tục phát tán qua USB, thư mục dùng chung hoặc tệp gửi cho người khác.
+- **Cách phòng tránh:**
+  - Không mở tệp, chương trình hoặc macro không rõ nguồn gốc.
+  - Quét USB và tệp tải xuống; cập nhật hệ điều hành và phần mềm bảo vệ.
+  - Sao lưu dữ liệu quan trọng để có thể phục hồi nếu tệp bị phá hoại.
+- **Dấu hiệu phân biệt:** Nhớ cụm 'cần vật chủ'. Worm là chương trình độc lập có thể tự lan qua mạng, còn Trojan nổi bật ở việc giả dạng để dụ người dùng cài hoặc chạy.
+- **Câu chốt:** Virus: đoạn mã độc cần vật chủ, được kích hoạt cùng vật chủ và lây bằng cách nhiễm mã vào vật chủ khác.
 
 ### 2. Worm — Sâu máy tính, tự lây qua mạng
 
-**Kiến thức cần nhớ:** Worm tự lây sang máy khác qua mạng. Đây chính là điểm khác lớn nhất so với virus.
+**Kiến thức cần nhớ:** Dấu hiệu bản chất của worm là chương trình độc lập có khả năng tự nhân bản và tự lan qua mạng.
 
 **Câu hỏi:** Đặc điểm nào giải thích tốt nhất sự lan truyền này?
 
@@ -180,13 +194,27 @@ Không chấm đúng sai, chỉ đọc để nắm khả năng quan sát của h
 
 **Gợi ý hiện khi chọn sai:** Chú ý việc nhiều máy bị ảnh hưởng mà không cần từng tệp vật chủ.
 
-**Giải thích:** Worm là chương trình hoàn chỉnh và có khả năng tự lây lan, thường qua mạng hoặc lỗ hổng. Nó cũng có thể dụ người dùng bấm liên kết hay chạy tệp.
+**Giải thích:** Nhiều máy lần lượt bị ảnh hưởng mà không cần từng tệp vật chủ cho thấy một chương trình độc lập đang tự nhân bản và lan qua mạng. Đó là cơ chế đặc trưng của worm.
 
-**Kiến thức chốt lại:** Worm có thể lan theo chuỗi: Máy A → Máy B → Máy C → Máy D.
+**Bản ghi kiến thức sau khi trả lời đúng:**
+
+- **Từ khóa:** chương trình độc lập, tự nhân bản, tự lan qua mạng, khai thác lỗ hổng
+- **Bản chất:** Worm là chương trình độc hại hoàn chỉnh, không cần vật chủ và có khả năng tạo bản sao của chính nó.
+- **Cơ chế hoạt động:** Một máy bị nhiễm → worm dò thiết bị hoặc lỗ hổng trong mạng → tự gửi hoặc cài bản sao sang máy khác → số máy bị nhiễm tăng rất nhanh.
+- **Tác hại:**
+  - Chiếm băng thông mạng, bộ nhớ và tài nguyên xử lí, làm máy và mạng chậm hoặc tê liệt.
+  - Lây nhanh tới nhiều thiết bị trong trường học, gia đình hoặc cơ quan trong thời gian ngắn.
+  - Có thể mang theo tải độc khác để phá hoại dữ liệu, tạo cửa hậu hoặc đánh cắp thông tin.
+- **Cách phòng tránh:**
+  - Cập nhật hệ điều hành và ứng dụng để vá các lỗ hổng bảo mật.
+  - Bật tường lửa, phần mềm bảo vệ và không mở liên kết hoặc tệp đính kèm đáng ngờ.
+  - Ngắt kết nối mạng hoặc cô lập thiết bị khi phát hiện dấu hiệu lây lan bất thường.
+- **Dấu hiệu phân biệt:** Nhớ cụm 'tự lan qua mạng'. Virus cần nhiễm vào vật chủ; Trojan chủ yếu dựa vào vỏ bọc đáng tin để lừa người dùng cài hoặc chạy.
+- **Câu chốt:** Worm có thể lan theo chuỗi: Máy A → Máy B → Máy C → Máy D.
 
 ### 3. Trojan — Phần mềm nội gián đội lốt phần mềm thật
 
-**Kiến thức cần nhớ:** Trojan không đặt trọng tâm vào việc lây lan. Mục tiêu của nó là ăn cắp thông tin và chiếm quyền điều khiển máy.
+**Kiến thức cần nhớ:** Dấu hiệu bản chất của Trojan là ngụy trang và lừa người dùng kích hoạt; nó không tự nhân bản như worm hay lây nhiễm vật chủ như virus.
 
 **Câu hỏi:** Điểm nguy hiểm nhất của chương trình này là gì?
 
@@ -197,9 +225,23 @@ Không chấm đúng sai, chỉ đọc để nắm khả năng quan sát của h
 
 **Gợi ý hiện khi chọn sai:** Chương trình vẫn tỏ ra hữu ích trong khi có hoạt động bí mật phía sau.
 
-**Giải thích:** Trojan ngụy trang dưới dạng phần mềm có vẻ bình thường. Mục tiêu chính là đánh cắp thông tin, mở đường truy cập hoặc chiếm quyền điều khiển, không đặt trọng tâm vào tự lây lan.
+**Giải thích:** Trò chơi vẫn tạo cảm giác bình thường nhưng có hoạt động bí mật phía sau. Việc ngụy trang để người dùng tự cài hoặc chạy là đặc điểm nhận diện quan trọng của Trojan.
 
-**Kiến thức chốt lại:** Vỏ ngoài: GAME MIỄN PHÍ. Bên trong: CHƯƠNG TRÌNH NỘI GIÁN.
+**Bản ghi kiến thức sau khi trả lời đúng:**
+
+- **Từ khóa:** ngụy trang, đánh lừa người dùng, người dùng kích hoạt, hoạt động bí mật
+- **Bản chất:** Trojan là chương trình độc hại khoác vỏ bọc có vẻ an toàn hoặc hữu ích để người dùng tự đưa nó vào máy.
+- **Cơ chế hoạt động:** Người dùng thấy một phần mềm có vẻ hữu ích → tự tải, cài hoặc cấp quyền → chức năng ẩn được kích hoạt → dữ liệu hoặc quyền điều khiển bị chuyển cho kẻ tấn công.
+- **Tác hại:**
+  - Đánh cắp mật khẩu, dữ liệu cá nhân, tài liệu hoặc thông tin tài khoản.
+  - Theo dõi người dùng, ghi phím, mở cửa hậu hoặc cho phép điều khiển máy từ xa.
+  - Tải thêm mã độc, thay đổi hệ thống hoặc lợi dụng máy để thực hiện hành vi khác.
+- **Cách phòng tránh:**
+  - Chỉ tải phần mềm từ nguồn chính thức; không dùng bản crack hoặc tệp cài đặt không rõ nguồn.
+  - Kiểm tra tên tệp, quyền ứng dụng yêu cầu và cảnh báo bảo mật trước khi cài hoặc chạy.
+  - Cập nhật hệ thống, dùng phần mềm bảo vệ và không cấp quyền quản trị khi không cần thiết.
+- **Dấu hiệu phân biệt:** Nhớ cụm 'giả dạng để được cài'. Virus nổi bật ở việc nhiễm vào vật chủ; worm nổi bật ở khả năng tự lan qua mạng.
+- **Câu chốt:** Trojan: chương trình độc hại ngụy trang, dựa vào việc người dùng tự cài hoặc chạy để thực hiện hoạt động bí mật.
 
 ---
 
@@ -243,9 +285,11 @@ Nhắc lại hành vi của từng loại:
 | Đặc điểm | Virus | Worm | Trojan |
 |---|---|---|---|
 | **Có phải phần mềm hoàn chỉnh không?** | Không. Chỉ là một đoạn mã nằm trong phần mềm khác | Có. Là phần mềm hoàn chỉnh, tự chạy được | Có. Là phần mềm hoàn chỉnh, tự chạy được |
-| **Có tự lây sang máy khác không?** | Không tự lây qua mạng. Chỉ lây sang tệp khác trong cùng máy | Có. Tự lây sang máy khác qua mạng | Không. Trojan không tự lây lan |
-| **Nó cần người dùng làm gì để hoạt động?** | Người dùng phải chạy phần mềm đang chứa nó | Không cần gì cả. Worm tự chạy và tự lây | Người dùng phải tự tải về và cài đặt nó |
-| **Mục đích chính của nó là gì?** | Phá hỏng hoặc làm sai lệch tệp trong máy | Lan ra thật nhiều máy, làm tê liệt hệ thống | Ăn cắp thông tin và chiếm quyền điều khiển máy |
+| **Có tự lây sang máy khác không?** | Không chủ động tự lan qua mạng; phát tán khi vật chủ bị nhiễm được chia sẻ hoặc chạy | Có. Tự lây sang máy khác qua mạng | Không tự lây lan |
+| **Nó cần người dùng làm gì để hoạt động?** | Vật chủ phải được người dùng hoặc hệ thống kích hoạt | Có thể tự lan sau khi xâm nhập; bước đầu có thể do lỗ hổng hoặc cú nhấp của người dùng | Thường phải lừa người dùng tải, cài, chạy hoặc cấp quyền |
+| **Mục đích chính của nó là gì?** | Nhiễm vào vật chủ khác và có thể phá hoại dữ liệu hoặc chương trình | Tự nhân bản, lan rộng và có thể mang thêm tải độc | Thực hiện hoạt động bí mật như đánh cắp dữ liệu hoặc mở cửa hậu |
+| **Tác hại điển hình là gì?** | Hỏng hoặc mất tệp, lỗi chương trình, máy hoạt động bất thường | Nghẽn mạng, cạn tài nguyên, nhiều máy bị ảnh hưởng rất nhanh | Mất mật khẩu hoặc dữ liệu, bị theo dõi hay điều khiển máy từ xa |
+| **Phòng tránh trọng tâm là gì?** | Không chạy tệp lạ, quét USB và sao lưu dữ liệu | Vá lỗ hổng, bật tường lửa và cô lập máy có dấu hiệu lây lan | Chỉ tải từ nguồn chính thức, tránh bản crack và kiểm tra quyền ứng dụng |
 
 Lưu ý khi chấm: một mô tả có thể đúng ở nhiều cột. Ví dụ worm và trojan đều là phần mềm hoàn chỉnh.
 

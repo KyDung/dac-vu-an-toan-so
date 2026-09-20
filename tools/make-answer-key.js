@@ -97,7 +97,17 @@ malwareCases.forEach((item, index) => {
   line();
   line(`**Giải thích:** ${item.explanation}`);
   line();
-  line(`**Kiến thức chốt lại:** ${item.knowledge}`);
+  line("**Bản ghi kiến thức sau khi trả lời đúng:**");
+  line();
+  line(`- **Từ khóa:** ${item.keywords.join(", ")}`);
+  line(`- **Bản chất:** ${item.essence}`);
+  line(`- **Cơ chế hoạt động:** ${item.mechanism}`);
+  line("- **Tác hại:**");
+  item.harms.forEach((harm) => line(`  - ${harm}`));
+  line("- **Cách phòng tránh:**");
+  item.prevention.forEach((action) => line(`  - ${action}`));
+  line(`- **Dấu hiệu phân biệt:** ${item.distinguish}`);
+  line(`- **Câu chốt:** ${item.knowledge}`);
   line();
 });
 

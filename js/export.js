@@ -56,7 +56,23 @@
     lines.push("", "PHẦN B. PHẦN MỀM ĐỘC HẠI");
     malwareCases.forEach((item) => {
       const answer = state.malwareAnswers[item.id] || {};
-      lines.push("", item.unlock, `Phân tích: ${answer.lastChoice !== undefined ? item.options[answer.lastChoice] : "Chưa thực hiện"}`, item.explanation);
+      if (!answer.complete) {
+        lines.push("", item.unlock, "Chưa hoàn thành hồ sơ kiến thức.");
+        return;
+      }
+      lines.push(
+        "",
+        item.unlock,
+        `Phân tích của học sinh: ${answer.lastChoice !== undefined ? item.options[answer.lastChoice] : "Chưa thực hiện"}`,
+        `Từ khóa: ${item.keywords.join(", ")}`,
+        `Bản chất: ${item.essence}`,
+        `Cơ chế hoạt động: ${item.mechanism}`,
+        "Tác hại có thể gây ra:",
+        ...item.harms.map((text) => `- ${text}`),
+        "Cách phòng tránh:",
+        ...item.prevention.map((text) => `- ${text}`),
+        `Dấu hiệu phân biệt: ${item.distinguish}`
+      );
     });
     lines.push("", "Bảng phân biệt:");
     malwareComparison.forEach((row) => {
@@ -152,11 +168,24 @@
     children.push(textParagraph(d, "PHẦN B. PHẦN MỀM ĐỘC HẠI", { heading: d.HeadingLevel.HEADING_1, bold: true, size: 30, pageBreakBefore: true }));
     malwareCases.forEach((item) => {
       const answer = state.malwareAnswers[item.id] || {};
-      children.push(
-        textParagraph(d, item.unlock, { heading: d.HeadingLevel.HEADING_2, bold: true, size: 27 }),
-        textParagraph(d, `Phân tích của học sinh: ${answer.lastChoice !== undefined ? item.options[answer.lastChoice] : "Chưa thực hiện"}`),
-        textParagraph(d, item.explanation)
-      );
+      children.push(textParagraph(d, item.unlock, { heading: d.HeadingLevel.HEADING_2, bold: true, size: 27 }));
+      if (!answer.complete) {
+        children.push(textParagraph(d, "Chưa hoàn thành hồ sơ kiến thức."));
+        return;
+      }
+      const rows = [
+        ["Phân tích của học sinh", answer.lastChoice !== undefined ? item.options[answer.lastChoice] : "Chưa thực hiện"],
+        ["Từ khóa", item.keywords.join(", ")],
+        ["Bản chất", item.essence],
+        ["Cơ chế hoạt động", item.mechanism],
+        ["Tác hại", item.harms.join(" • ")],
+        ["Cách phòng tránh", item.prevention.join(" • ")],
+        ["Dấu hiệu phân biệt", item.distinguish]
+      ];
+      children.push(new d.Table({
+        width: { size: 100, type: d.WidthType.PERCENTAGE },
+        rows: rows.map((row) => new d.TableRow({ children: [tableCell(d, row[0], true), tableCell(d, row[1])] }))
+      }));
     });
 
     children.push(textParagraph(d, "Bảng phân biệt Virus, Worm và Trojan", { heading: d.HeadingLevel.HEADING_2, bold: true, size: 27 }));
